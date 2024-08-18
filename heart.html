@@ -55,25 +55,18 @@ canvas {
   </div>
   
   <script>
-  /*
- * Settings
- */
+ 
 var settings = {
   particles: {
-    length:   500, // maximum amount of particles
-    duration:   2, // particle duration in sec
-    velocity: 100, // particle velocity in pixels/sec
-    effect: -0.75, // play with this for a nice effect
-    size:      30, // particle size in pixels
+    length:   500, 
+    duration:   2, 
+    velocity: 100,  
+    size:      30, 
   },
 };
-/*
- * RequestAnimationFrame polyfill by Erik Möller
- */
+
 (function(){var b=0;var c=["ms","moz","webkit","o"];for(var a=0;a<c.length&&!window.requestAnimationFrame;++a){window.requestAnimationFrame=window[c[a]+"RequestAnimationFrame"];window.cancelAnimationFrame=window[c[a]+"CancelAnimationFrame"]||window[c[a]+"CancelRequestAnimationFrame"]}if(!window.requestAnimationFrame){window.requestAnimationFrame=function(h,e){var d=new Date().getTime();var f=Math.max(0,16-(d-b));var g=window.setTimeout(function(){h(d+f)},f);b=d+f;return g}}if(!window.cancelAnimationFrame){window.cancelAnimationFrame=function(d){clearTimeout(d)}}}());
-/*
- * Point class
- */
+
 var Point = (function() {
   function Point(x, y) {
     this.x = (typeof x !== 'undefined') ? x : 0;
@@ -98,9 +91,7 @@ var Point = (function() {
   };
   return Point;
 })();
-/*
- * Particle class
- */
+
 var Particle = (function() {
   function Particle() {
     this.position = new Point();
@@ -196,16 +187,14 @@ var ParticlePool = (function() {
   };
   return ParticlePool;
 })();
-/*
- * Putting it all together
- */
+
 (function(canvas) {
   var context = canvas.getContext('2d'),
       particles = new ParticlePool(settings.particles.length),
-      particleRate = settings.particles.length / settings.particles.duration, // particles/sec
+      particleRate = settings.particles.length / settings.particles.duration, 
       time;
  
-  // get point on heart with -PI <= t <= PI
+  
   function pointOnHeart(t) {
     return new Point(
       160 * Math.pow(Math.sin(t), 3),
@@ -213,20 +202,20 @@ var ParticlePool = (function() {
     );
   }
  
-  // creating the particle image using a dummy canvas
+  
   var image = (function() {
     var canvas  = document.createElement('canvas'),
         context = canvas.getContext('2d');
     canvas.width  = settings.particles.size;
     canvas.height = settings.particles.size;
-    // helper function to create the path
+    
     function to(t) {
       var point = pointOnHeart(t);
       point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
       point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
       return point;
     }
-    // create the path
+    
     context.beginPath();
     var t = -Math.PI;
     var point = to(t);
